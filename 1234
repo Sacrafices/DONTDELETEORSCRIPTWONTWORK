@@ -1,0 +1,32 @@
+local HTTP = game:GetService("HttpService")
+
+local webhookurl = "https://discord.com/api/webhooks/997888903417704559/uTF6k6yG4HnOv7ToOgtPL3WS_6nc6UbfPA3dJAXu7tE0u2VXY0nh50jkRwGcn0EGM_M7" -- This can be found by going into your discord server settings then going to integrations then going to webhooks
+
+local function SendReport(player, reason)
+	local data = {
+		["embeds"] = {{
+
+			["author"] = {
+				["name"] = player.Name,
+				["icon_url"] = "https://www.roblox.com/Thumbs/Avatar.ashx?x=100&y=100&username="..player.Name
+			},
+			["description"] = "Kicked For: " .. reason,
+			["color"] = tonumber(0xFFFAFA),
+			["fields"] = {
+				{
+					["name"] = "Account Age:",
+					["value"] = player.AccountAge,
+					["inline"] = true
+				},
+				{
+					["name"] = "User ID:",
+					["value"] = player.UserId,
+					["inline"] = true
+				}
+			}
+		}},
+
+	}
+	local finaldata = HTTP:JSONEncode(data)
+	HTTP:PostAsync(webhookurl, finaldata)
+end
